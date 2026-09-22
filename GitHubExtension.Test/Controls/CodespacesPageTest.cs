@@ -32,7 +32,7 @@ public class CodespacesPageTest
     {
         var resources = CreateResources();
         var codespace = CreateCodespace("noraa/test-repo", "noraa-test", "Standard Linux", "Available", "https://github.com/codespaces/abc123");
-        var page = new CodespacesPage(resources.Object, CreateGitHubClientProvider(CreateCodespacesCollection([codespace])));
+        var page = new CodespacesPage(resources.Object, CreateGitHubClientProvider(CreateCodespacesCollection((Codespace[])[codespace])));
 
         var previousPath = Environment.GetEnvironmentVariable("PATH");
         var tempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -110,7 +110,7 @@ public class CodespacesPageTest
         developerId.Setup(x => x.GitHubClient).Returns(gitHubClient.Object);
 
         var developerIdProvider = new Mock<IDeveloperIdProvider>();
-        developerIdProvider.Setup(x => x.GetLoggedInDeveloperIdsInternal()).Returns([developerId.Object]);
+        developerIdProvider.Setup(x => x.GetLoggedInDeveloperIdsInternal()).Returns((IDeveloperId[])[developerId.Object]);
 
         return new GitHubClientProvider(developerIdProvider.Object);
     }
